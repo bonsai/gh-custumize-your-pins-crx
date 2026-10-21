@@ -66,13 +66,21 @@
     }
   });
 
-  fetch("https://api.github.com/users/" + encodeURIComponent(login) + "/repos?per_page=100&sort=updated&type=owner", {
-    headers: { Accept: "application/vnd.github+json" }
-  })
-    .then((response) => {
+  async function fetchAllPublicRepos(user) {
+    const all = [];
+    for (let page = 1; page <= 10; page += 1) {
+      const response = await fetch("https://api.github.com/users/" + encodeURIComponent(user) + "/repos?per_page=100&page=" + page + "&sort=updated&type=owner", {
+        headers: { Accept: "application/vnd.github+json" }
+      });
       if (!response.ok) throw new Error("GitHub API returned HTTP " + response.status);
-      return response.json();
-    })
+      const batch = await response.json();
+      all.push(...batch);
+      if (batch.length < 100) break;
+    }
+    return all;
+  }
+
+  fetchAllPublicRepos(login)
     .then((repos) => {
       const suggestions = window.PinPlanner.rank(repos, { limit: 6 });
       suggestedList.replaceChildren();
@@ -89,7 +97,7 @@
         li.append(a, meta);
         suggestedList.appendChild(li);
       });
-      status.textContent = suggestions.length ? "Ranked " + suggestions.length + " public repositories. Review before using." : "No eligible repositories found.";
+      status.textContent = suggestions.length ? "Ranked " + suggestions.length + " public repositories from " + repos.length + " fetched. Review before using." : "No eligible repositories found.";
     })
     .catch((error) => {
       status.textContent = "Could not load suggestions: " + error.message + ". The planner does not change pins automatically.";
