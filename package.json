@@ -1,0 +1,14 @@
+{
+  "name": "gh-custumize-your-pins-crx",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension and CLI for planning GitHub profile pinned repositories",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
