@@ -1,0 +1,28 @@
+#gh-pin-planner {
+  position: fixed;
+  z-index: 99999;
+  top: 88px;
+  right: 20px;
+  width: min(360px, calc(100vw - 32px));
+  max-height: calc(100vh - 112px);
+  overflow: auto;
+  padding: 16px;
+  color: var(--fgColor-default, #1f2328);
+  background: var(--bgColor-default, #fff);
+  border: 1px solid var(--borderColor-default, #d1d9e0);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px #0002;
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+#gh-pin-planner * { box-sizing: border-box; }
+#gh-pin-planner .ghpp-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; }
+#gh-pin-planner .ghpp-close { border: 0; background: transparent; color: inherit; font-size: 22px; cursor: pointer; }
+#gh-pin-planner .ghpp-note, #gh-pin-planner .ghpp-status { color: var(--fgColor-muted, #656d76); }
+#gh-pin-planner .ghpp-current, #gh-pin-planner .ghpp-suggested { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; }
+#gh-pin-planner .ghpp-count { color: var(--fgColor-muted, #656d76); }
+#gh-pin-planner .ghpp-list { margin: 6px 0 12px; padding-left: 20px; }
+#gh-pin-planner .ghpp-list li { margin: 5px 0; overflow-wrap: anywhere; }
+#gh-pin-planner a { color: var(--fgColor-accent, #0969da); }
+#gh-pin-planner .ghpp-list span { display: block; color: var(--fgColor-muted, #656d76); font-size: 11px; }
+#gh-pin-planner .ghpp-copy { display: block; width: 100%; padding: 7px 10px; border: 1px solid var(--borderColor-default, #d1d9e0); border-radius: 6px; background: var(--button-default-bgColor-rest, #f6f8fa); color: inherit; cursor: pointer; }
+#gh-pin-planner .ghpp-profile-link { display: inline-block; margin-top: 10px; }
