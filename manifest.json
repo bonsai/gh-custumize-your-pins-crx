@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "GitHub Profile Pins Planner",
+  "version": "0.1.0",
+  "description": "Preview and plan GitHub profile pinned repositories without using unsupported pin mutation APIs.",
+  "permissions": [],
+  "host_permissions": [
+    "https://api.github.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["shared/pin-planner.cjs", "extension/content.js"],
+      "css": ["extension/panel.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
