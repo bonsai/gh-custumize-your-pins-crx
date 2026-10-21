@@ -23,9 +23,16 @@ function option(args, name, fallback) {
 async function getRepos(owner) {
   const headers = { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
   if (process.env.GITHUB_TOKEN) headers.Authorization = "Bearer " + process.env.GITHUB_TOKEN;
-  const response = await fetch("https://api.github.com/users/" + encodeURIComponent(owner) + "/repos?per_page=100&sort=updated&type=owner", { headers });
-  if (!response.ok) throw new Error("GitHub API returned HTTP " + response.status + ": " + await response.text());
-  return response.json();
+  const all = [];
+  for (let page = 1; page <= 10; page += 1) {
+    const url = "https://api.github.com/users/" + encodeURIComponent(owner) + "/repos?per_page=100&page=" + page + "&sort=updated&type=owner";
+    const response = await fetch(url, { headers });
+    if (!response.ok) throw new Error("GitHub API returned HTTP " + response.status + ": " + await response.text());
+    const batch = await response.json();
+    all.push(...batch);
+    if (batch.length < 100) break;
+  }
+  return all;
 }
 
 function display(repos) {
@@ -41,7 +48,7 @@ async function main() {
   const input = option([first, ...args], "--input", null);
   const requestedLimit = Number(option(args, "--limit", "6")) || 6;
   const limit = Math.max(1, Math.min(6, requestedLimit));
-  let owner = first;
+  const owner = first;
   let repos;
 
   if (input) {
