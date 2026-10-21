@@ -39,7 +39,8 @@ async function main() {
   if (!command || command === "help" || command === "--help") return usage();
 
   const input = option([first, ...args], "--input", null);
-  const limit = Math.max(1, Math.min(100, Number(option(args, "--limit", "6")) || 6));
+  const requestedLimit = Number(option(args, "--limit", "6")) || 6;
+  const limit = Math.max(1, Math.min(6, requestedLimit));
   let owner = first;
   let repos;
 
